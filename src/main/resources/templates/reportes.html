@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reportes - Flores del Valle</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<header>
+    <div class="container">
+        <h1>🌸 Flores del Valle</h1>
+        <p>Panel de reportes</p>
+    </div>
+</header>
+
+<nav>
+    <div class="container">
+        <a href="/">Inicio</a>
+        <a href="/inventario">Inventario</a>
+        <a href="/pedidos">Pedidos</a>
+        <a href="/entregas">Entregas</a>
+        <a href="/facturas">Finanzas</a>
+        <a href="/reportes">Reportes</a>
+    </div>
+</nav>
+
+<main class="container">
+
+    <div class="page-header">
+        <div>
+            <h2>Reportes generales</h2>
+            <p>Resumen de la información registrada en el sistema.</p>
+        </div>
+    </div>
+
+    <div class="report-cards">
+
+        <div class="report-card">
+            <h3>🌷 Inventario</h3>
+            <p>Total de tipos de flores registrados</p>
+            <strong th:text="${totalFlores}">0</strong>
+        </div>
+
+        <div class="report-card">
+            <h3>📦 Pedidos</h3>
+            <p>Total de pedidos registrados</p>
+            <strong th:text="${totalPedidos}">0</strong>
+        </div>
+
+        <div class="report-card">
+            <h3>🚚 Entregas</h3>
+            <p>Total de entregas registradas</p>
+            <strong th:text="${totalEntregas}">0</strong>
+        </div>
+
+        <div class="report-card">
+            <h3>🧾 Facturas</h3>
+            <p>Total de facturas registradas</p>
+            <strong th:text="${totalFacturas}">0</strong>
+        </div>
+
+        <div class="report-card">
+            <h3>💰 Ingresos</h3>
+            <p>Ingresos totales registrados</p>
+            <strong th:text="${ingresosTotales}">$0</strong>
+        </div>
+
+        <div class="report-card">
+            <h3>💳 Pagos</h3>
+            <p>Facturas pagadas</p>
+            <strong th:text="${facturasPagadas}">0</strong>
+        </div>
+
+    </div>
+
+    <div class="report-section">
+
+        <h2>Estado de los pedidos</h2>
+
+        <div class="status-grid">
+
+            <div>
+                <span>En curso</span>
+                <strong th:text="${pedidosEnCurso}">0</strong>
+            </div>
+
+            <div>
+                <span>Completados</span>
+                <strong th:text="${pedidosCompletados}">0</strong>
+            </div>
+
+            <div>
+                <span>Entregados</span>
+                <strong th:text="${pedidosEntregados}">0</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<footer>
+    <p>Flores del Valle © 2026</p>
+</footer>
+
+</body>
+</html>

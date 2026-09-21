@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pedidos | Flores del Valle</title>
+
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+    <!-- =====================================================
+         BARRA DE NAVEGACIÓN
+         ===================================================== -->
+
+    <header class="navbar">
+
+        <div class="logo">
+            🌸 Flores del Valle
+        </div>
+
+        <nav>
+
+            <a th:href="@{/}">
+                Inicio
+            </a>
+
+            <a th:href="@{/inventario}">
+                Inventario
+            </a>
+
+            <a th:href="@{/pedidos}">
+                Pedidos
+            </a>
+
+            <a th:href="@{/entregas}">
+                Entregas
+            </a>
+
+            <a th:href="@{/facturas}">
+                Finanzas
+            </a>
+
+            <a th:href="@{/reportes}">
+                Reportes
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =====================================================
+         CONTENIDO PRINCIPAL
+         ===================================================== -->
+
+    <main class="container">
+
+        <section class="welcome">
+
+            <h1>
+                🛒 Gestión de pedidos
+            </h1>
+
+            <p>
+                Registra y administra los pedidos realizados por los clientes.
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             BOTÓN NUEVO PEDIDO
+             ================================================= -->
+
+        <div style="margin-bottom: 25px;">
+
+            <a th:href="@{/pedidos/nuevo}" class="btn">
+                ➕ Nuevo pedido
+            </a>
+
+        </div>
+
+
+        <!-- =================================================
+             TABLA DE PEDIDOS
+             ================================================= -->
+
+        <div class="table-container">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Cliente
+                        </th>
+
+                        <th>
+                            Contacto
+                        </th>
+
+                        <th>
+                            Arreglo
+                        </th>
+
+                        <th>
+                            Ocasión
+                        </th>
+
+                        <th>
+                            Fecha entrega
+                        </th>
+
+                        <th>
+                            Presupuesto
+                        </th>
+
+                        <th>
+                            Estado
+                        </th>
+
+                        <th>
+                            Acciones
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    <!-- =====================================
+                         PEDIDOS REGISTRADOS
+                         ===================================== -->
+
+                    <tr th:each="pedido : ${pedidos}">
+
+                        <td th:text="${pedido.nombreCliente}">
+                        </td>
+
+                        <td th:text="${pedido.contacto}">
+                        </td>
+
+                        <td th:text="${pedido.tipoArreglo}">
+                        </td>
+
+                        <td th:text="${pedido.ocasion}">
+                        </td>
+
+                        <td th:text="${pedido.fechaEntrega}">
+                        </td>
+
+                        <td th:text="${pedido.presupuesto}">
+                        </td>
+
+                        <td th:text="${pedido.estado}">
+                        </td>
+
+                        <td>
+
+                            <!-- EDITAR -->
+
+                            <a th:href="@{/pedidos/editar/{id}(id=${pedido.id})}"
+                               class="btn btn-edit">
+
+                                ✏️ Editar
+
+                            </a>
+
+
+                            <!-- ELIMINAR -->
+
+                            <a th:href="@{/pedidos/eliminar/{id}(id=${pedido.id})}"
+                               class="btn btn-delete"
+                               onclick="return confirm('¿Está seguro de eliminar este pedido?');">
+
+                                🗑️ Eliminar
+
+                            </a>
+
+                        </td>
+
+                    </tr>
+
+
+                    <!-- =====================================
+                         SIN PEDIDOS
+                         ===================================== -->
+
+                    <tr th:if="${#lists.isEmpty(pedidos)}">
+
+                        <td colspan="8"
+                            style="text-align: center; padding: 35px;">
+
+                            No hay pedidos registrados.
+
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         PIE DE PÁGINA
+         ===================================================== -->
+
+    <footer>
+
+        <p>
+            Flores del Valle © 2026 |
+            Sistema de gestión de floristería
+        </p>
+
+    </footer>
+
+
+</body>
+
+</html>

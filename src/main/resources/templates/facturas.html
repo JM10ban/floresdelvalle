@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Finanzas - Flores del Valle</title>
+
+    <link rel="stylesheet"
+          th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🌸 Flores del Valle
+    </div>
+
+    <nav>
+
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <a th:href="@{/inventario}">
+            Inventario
+        </a>
+
+        <a th:href="@{/pedidos}">
+            Pedidos
+        </a>
+
+        <a th:href="@{/entregas}">
+            Entregas
+        </a>
+
+        <a th:href="@{/facturas}">
+            Finanzas
+        </a>
+
+        <a th:href="@{/reportes}">
+            Reportes
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-header">
+
+        <div>
+
+            <h2>
+                Facturación
+            </h2>
+
+            <p>
+                Consulta y administra las facturas de los pedidos.
+            </p>
+
+        </div>
+
+        <a th:href="@{/facturas/nuevo}"
+           class="btn">
+
+            ➕ Nueva factura
+
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>ID</th>
+
+                    <th>Cliente</th>
+
+                    <th>Fecha</th>
+
+                    <th>Precio flores</th>
+
+                    <th>Costos adicionales</th>
+
+                    <th>Total</th>
+
+                    <th>Estado de pago</th>
+
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr th:each="factura : ${facturas}">
+
+                    <td th:text="${factura.id}">
+                    </td>
+
+                    <td th:text="${factura.pedido.nombreCliente}">
+                    </td>
+
+                    <td th:text="${factura.fecha}">
+                    </td>
+
+                    <td th:text="${factura.precioFlores}">
+                    </td>
+
+                    <td th:text="${factura.costosAdicionales}">
+                    </td>
+
+                    <td>
+
+                        <strong
+                            class="total-destacado"
+                            th:text="${factura.total}">
+                        </strong>
+
+                    </td>
+
+                    <td th:text="${factura.estadoPago}">
+                    </td>
+
+                    <td>
+
+                        <a th:href="@{/facturas/editar/{id}(id=${factura.id})}"
+                           class="btn btn-edit">
+
+                            ✏️ Editar
+
+                        </a>
+
+                        <a th:href="@{/facturas/eliminar/{id}(id=${factura.id})}"
+                           class="btn btn-delete"
+                           onclick="return confirm('¿Deseas eliminar esta factura?');">
+
+                            🗑️ Eliminar
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+                <tr th:if="${#lists.isEmpty(facturas)}">
+
+                    <td colspan="8"
+                        style="text-align: center; padding: 35px;">
+
+                        No hay facturas registradas.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Flores del Valle © 2026 |
+        Sistema de gestión de floristería
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

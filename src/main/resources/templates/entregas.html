@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Entregas - Flores del Valle</title>
+
+    <link rel="stylesheet"
+          th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🌸 Flores del Valle
+    </div>
+
+    <nav>
+
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <a th:href="@{/inventario}">
+            Inventario
+        </a>
+
+        <a th:href="@{/pedidos}">
+            Pedidos
+        </a>
+
+        <a th:href="@{/entregas}">
+            Entregas
+        </a>
+
+        <a th:href="@{/facturas}">
+            Finanzas
+        </a>
+
+        <a th:href="@{/reportes}">
+            Reportes
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h1>
+            🚚 Gestión de entregas
+        </h1>
+
+        <p>
+            Programa y controla las entregas de los pedidos.
+        </p>
+
+    </section>
+
+
+    <div style="margin-bottom: 25px;">
+
+        <a th:href="@{/entregas/nuevo}"
+           class="btn">
+
+            ➕ Nueva entrega
+
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Cliente
+                    </th>
+
+                    <th>
+                        Repartidor
+                    </th>
+
+                    <th>
+                        Ruta
+                    </th>
+
+                    <th>
+                        Fecha
+                    </th>
+
+                    <th>
+                        Estado
+                    </th>
+
+                    <th>
+                        Acciones
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr th:each="entrega : ${entregas}">
+
+                    <td th:text="${entrega.pedido.nombreCliente}">
+                    </td>
+
+                    <td th:text="${entrega.repartidor}">
+                    </td>
+
+                    <td th:text="${entrega.ruta}">
+                    </td>
+
+                    <td th:text="${entrega.fechaEntrega}">
+                    </td>
+
+                    <td th:text="${entrega.estado}">
+                    </td>
+
+                    <td>
+
+                        <a th:href="@{/entregas/editar/{id}(id=${entrega.id})}"
+                           class="btn btn-edit">
+
+                            ✏️ Editar
+
+                        </a>
+
+                        <a th:href="@{/entregas/eliminar/{id}(id=${entrega.id})}"
+                           class="btn btn-delete"
+                           onclick="return confirm('¿Está seguro de eliminar esta entrega?');">
+
+                            🗑️ Eliminar
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+                <tr th:if="${#lists.isEmpty(entregas)}">
+
+                    <td colspan="6"
+                        style="text-align: center; padding: 35px;">
+
+                        No hay entregas registradas.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Flores del Valle © 2026 |
+        Sistema de gestión de floristería
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

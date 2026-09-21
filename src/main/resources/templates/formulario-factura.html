@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Factura | Flores del Valle</title>
+
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🌸 Flores del Valle
+    </div>
+
+    <nav>
+
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <a th:href="@{/inventario}">
+            Inventario
+        </a>
+
+        <a th:href="@{/pedidos}">
+            Pedidos
+        </a>
+
+        <a th:href="@{/entregas}">
+            Entregas
+        </a>
+
+        <a th:href="@{/facturas}">
+            Finanzas
+        </a>
+
+        <a th:href="@{/reportes}">
+            Reportes
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h1 th:if="${factura.id == null}">
+            🧾 Registrar factura
+        </h1>
+
+        <h1 th:if="${factura.id != null}">
+            ✏️ Editar factura
+        </h1>
+
+        <p th:if="${factura.id == null}">
+            Registra la información de facturación del pedido.
+        </p>
+
+        <p th:if="${factura.id != null}">
+            Modifica la información de la factura seleccionada.
+        </p>
+
+    </section>
+
+
+    <div class="card">
+
+        <form th:action="@{/facturas/guardar}"
+              th:object="${factura}"
+              method="post">
+
+            <!-- =================================================
+                 ID DE LA FACTURA
+                 ================================================= -->
+
+            <input type="hidden" th:field="*{id}">
+
+
+            <!-- =================================================
+                 PEDIDO
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="pedidoId">
+                    <strong>Pedido</strong>
+                </label>
+
+                <select
+                    id="pedidoId"
+                    name="pedidoId"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;">
+
+                    <option value="">
+                        Seleccione un pedido
+                    </option>
+
+                    <option
+                        th:each="pedido : ${pedidos}"
+                        th:value="${pedido.id}"
+                        th:text="${pedido.nombreCliente + ' - ' + pedido.tipoArreglo}"
+                        th:selected="${factura.pedido != null and factura.pedido.id == pedido.id}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 FECHA
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="fecha">
+                    <strong>Fecha</strong>
+                </label>
+
+                <input
+                    type="date"
+                    id="fecha"
+                    th:field="*{fecha}"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 PRECIO DE LAS FLORES
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="precioFlores">
+                    <strong>Precio de las flores</strong>
+                </label>
+
+                <input
+                    type="number"
+                    id="precioFlores"
+                    th:field="*{precioFlores}"
+                    min="0"
+                    step="0.01"
+                    required
+                    oninput="calcularTotal()"
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 COSTOS ADICIONALES
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="costosAdicionales">
+                    <strong>Costos adicionales</strong>
+                </label>
+
+                <input
+                    type="number"
+                    id="costosAdicionales"
+                    th:field="*{costosAdicionales}"
+                    min="0"
+                    step="0.01"
+                    required
+                    oninput="calcularTotal()"
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 TOTAL
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="total">
+                    <strong>Total</strong>
+                </label>
+
+                <input
+                    type="number"
+                    id="total"
+                    th:field="*{total}"
+                    readonly
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 2px solid #2563eb; border-radius: 6px; background-color: #eff6ff; font-weight: bold;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 ESTADO DE PAGO
+                 ================================================= -->
+
+            <div style="margin-bottom: 25px;">
+
+                <label for="estadoPago">
+                    <strong>Estado del pago</strong>
+                </label>
+
+                <select
+                    id="estadoPago"
+                    th:field="*{estadoPago}"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;">
+
+                    <option value="Pendiente">
+                        Pendiente
+                    </option>
+
+                    <option value="Pagado">
+                        Pagado
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 BOTONES
+                 ================================================= -->
+
+            <div>
+
+                <button
+                    type="submit"
+                    class="btn"
+                    style="border: none; cursor: pointer;">
+
+                    💾 Guardar factura
+
+                </button>
+
+                <a
+                    th:href="@{/facturas}"
+                    class="btn"
+                    style="background-color: #64748b; margin-left: 10px;">
+
+                    ↩️ Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Flores del Valle © 2026 |
+        Sistema de gestión de floristería
+    </p>
+
+</footer>
+
+
+<script>
+
+    function calcularTotal() {
+
+        const precioFlores =
+            parseFloat(
+                document.getElementById("precioFlores").value
+            ) || 0;
+
+        const costosAdicionales =
+            parseFloat(
+                document.getElementById("costosAdicionales").value
+            ) || 0;
+
+        const total =
+            precioFlores + costosAdicionales;
+
+        document.getElementById("total").value =
+            total.toFixed(2);
+    }
+
+</script>
+
+</body>
+
+</html>

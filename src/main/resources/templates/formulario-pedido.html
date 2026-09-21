@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Pedido | Flores del Valle</title>
+
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🌸 Flores del Valle
+    </div>
+
+    <nav>
+
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <a th:href="@{/inventario}">
+            Inventario
+        </a>
+
+        <a th:href="@{/pedidos}">
+            Pedidos
+        </a>
+
+        <a th:href="@{/entregas}">
+            Entregas
+        </a>
+
+        <a th:href="@{/facturas}">
+            Finanzas
+        </a>
+
+        <a th:href="@{/reportes}">
+            Reportes
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h1 th:if="${pedido.id == null}">
+            🛒 Registrar pedido
+        </h1>
+
+        <h1 th:if="${pedido.id != null}">
+            ✏️ Editar pedido
+        </h1>
+
+        <p th:if="${pedido.id == null}">
+            Registra la información del pedido realizado por el cliente.
+        </p>
+
+        <p th:if="${pedido.id != null}">
+            Modifica la información del pedido seleccionado.
+        </p>
+
+    </section>
+
+
+    <div class="card">
+
+        <form th:action="@{/pedidos/guardar}"
+              th:object="${pedido}"
+              method="post">
+
+            <!-- =================================================
+                 ID DEL PEDIDO
+                 Necesario para editar
+                 ================================================= -->
+
+            <input type="hidden" th:field="*{id}">
+
+
+            <!-- =================================================
+                 NOMBRE DEL CLIENTE
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="nombreCliente">
+                    <strong>Nombre del cliente</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="nombreCliente"
+                    th:field="*{nombreCliente}"
+                    placeholder="Ej. Juan Pérez"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 DIRECCIÓN
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="direccion">
+                    <strong>Dirección de entrega</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="direccion"
+                    th:field="*{direccion}"
+                    placeholder="Ej. Calle 10 #20-30"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 CONTACTO
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="contacto">
+                    <strong>Contacto</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="contacto"
+                    th:field="*{contacto}"
+                    placeholder="Ej. 3001234567"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 TIPO DE ARREGLO
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="tipoArreglo">
+                    <strong>Tipo de arreglo</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="tipoArreglo"
+                    th:field="*{tipoArreglo}"
+                    placeholder="Ej. Ramo de rosas"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 OCASIÓN
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="ocasion">
+                    <strong>Ocasión</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="ocasion"
+                    th:field="*{ocasion}"
+                    placeholder="Ej. Cumpleaños"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 FECHA DE ENTREGA
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="fechaEntrega">
+                    <strong>Fecha de entrega</strong>
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaEntrega"
+                    th:field="*{fechaEntrega}"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 PRESUPUESTO
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="presupuesto">
+                    <strong>Presupuesto</strong>
+                </label>
+
+                <input
+                    type="number"
+                    id="presupuesto"
+                    th:field="*{presupuesto}"
+                    min="0"
+                    step="0.01"
+                    placeholder="Ej. 100000"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 ESTADO
+                 ================================================= -->
+
+            <div style="margin-bottom: 25px;">
+
+                <label for="estado">
+                    <strong>Estado del pedido</strong>
+                </label>
+
+                <select
+                    id="estado"
+                    th:field="*{estado}"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;">
+
+                    <option value="En curso">
+                        En curso
+                    </option>
+
+                    <option value="Completado">
+                        Completado
+                    </option>
+
+                    <option value="Entregado">
+                        Entregado
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 BOTONES
+                 ================================================= -->
+
+            <div>
+
+                <button
+                    type="submit"
+                    class="btn"
+                    style="border: none; cursor: pointer;">
+
+                    💾 Guardar pedido
+
+                </button>
+
+
+                <a
+                    th:href="@{/pedidos}"
+                    class="btn"
+                    style="background-color: #64748b; margin-left: 10px;">
+
+                    ↩️ Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Flores del Valle © 2026 |
+        Sistema de gestión de floristería
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

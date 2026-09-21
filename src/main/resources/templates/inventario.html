@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inventario - Flores del Valle</title>
+
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🌸 Flores del Valle
+    </div>
+
+    <nav>
+
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <a th:href="@{/inventario}">
+            Inventario
+        </a>
+
+        <a th:href="@{/pedidos}">
+            Pedidos
+        </a>
+
+        <a th:href="@{/entregas}">
+            Entregas
+        </a>
+
+        <a th:href="@{/facturas}">
+            Finanzas
+        </a>
+
+        <a th:href="@{/reportes}">
+            Reportes
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h1>
+            🌷 Inventario de flores
+        </h1>
+
+        <p>
+            Gestiona las flores disponibles,
+            cantidades y precios.
+        </p>
+
+    </section>
+
+
+    <div style="margin-bottom: 25px;">
+
+        <a th:href="@{/inventario/nuevo}" class="btn">
+            ➕ Agregar flor
+        </a>
+
+    </div>
+
+
+    <div class="table-container">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>Tipo</th>
+
+                    <th>Color</th>
+
+                    <th>Variedad</th>
+
+                    <th>Cantidad</th>
+
+                    <th>Precio compra</th>
+
+                    <th>Precio venta</th>
+
+                    <th>Acciones</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                <tr th:each="flor : ${flores}">
+
+                    <td th:text="${flor.tipo}">
+                    </td>
+
+                    <td th:text="${flor.color}">
+                    </td>
+
+                    <td th:text="${flor.variedad}">
+                    </td>
+
+                    <td th:text="${flor.cantidadDisponible}">
+                    </td>
+
+                    <td th:text="${flor.precioCompra}">
+                    </td>
+
+                    <td th:text="${flor.precioVenta}">
+                    </td>
+
+                    <td>
+
+                        <a th:href="@{/inventario/editar/{id}(id=${flor.id})}"
+                           class="btn btn-edit">
+
+                            ✏️ Editar
+
+                        </a>
+
+
+                        <a th:href="@{/inventario/eliminar/{id}(id=${flor.id})}"
+                           class="btn btn-delete"
+                           onclick="return confirm('¿Está seguro de eliminar esta flor?');">
+
+                            🗑️ Eliminar
+
+                        </a>
+
+                    </td>
+
+                </tr>
+
+
+                <tr th:if="${#lists.isEmpty(flores)}">
+
+                    <td colspan="7"
+                        style="text-align: center; padding: 35px;">
+
+                        No hay flores registradas en el inventario.
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Flores del Valle © 2026 |
+        Sistema de gestión de floristería
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>

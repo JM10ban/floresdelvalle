@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Entrega | Flores del Valle</title>
+
+    <link rel="stylesheet" th:href="@{/style.css}">
+
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="logo">
+        🌸 Flores del Valle
+    </div>
+
+    <nav>
+
+        <a th:href="@{/}">
+            Inicio
+        </a>
+
+        <a th:href="@{/inventario}">
+            Inventario
+        </a>
+
+        <a th:href="@{/pedidos}">
+            Pedidos
+        </a>
+
+        <a th:href="@{/entregas}">
+            Entregas
+        </a>
+
+        <a th:href="@{/facturas}">
+            Finanzas
+        </a>
+
+        <a th:href="@{/reportes}">
+            Reportes
+        </a>
+
+    </nav>
+
+</header>
+
+
+<main class="container">
+
+    <section class="welcome">
+
+        <h1 th:if="${entrega.id == null}">
+            🚚 Registrar entrega
+        </h1>
+
+        <h1 th:if="${entrega.id != null}">
+            ✏️ Editar entrega
+        </h1>
+
+        <p th:if="${entrega.id == null}">
+            Programa una entrega para uno de los pedidos registrados.
+        </p>
+
+        <p th:if="${entrega.id != null}">
+            Modifica la información de la entrega seleccionada.
+        </p>
+
+    </section>
+
+
+    <div class="card">
+
+        <form th:action="@{/entregas/guardar}"
+              th:object="${entrega}"
+              method="post">
+
+            <!-- =================================================
+                 ID DE LA ENTREGA
+                 Necesario para editar correctamente
+                 ================================================= -->
+
+            <input type="hidden" th:field="*{id}">
+
+
+            <!-- =================================================
+                 PEDIDO
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="pedidoId">
+                    <strong>Pedido</strong>
+                </label>
+
+                <select
+                    id="pedidoId"
+                    name="pedidoId"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;">
+
+                    <option value="">
+                        Seleccione un pedido
+                    </option>
+
+                    <option
+                        th:each="pedido : ${pedidos}"
+                        th:value="${pedido.id}"
+                        th:text="${pedido.nombreCliente + ' - ' + pedido.tipoArreglo}"
+                        th:selected="${entrega.pedido != null and entrega.pedido.id == pedido.id}">
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 REPARTIDOR
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="repartidor">
+                    <strong>Repartidor</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="repartidor"
+                    th:field="*{repartidor}"
+                    placeholder="Ej. Carlos Rodríguez"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 RUTA
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="ruta">
+                    <strong>Ruta</strong>
+                </label>
+
+                <input
+                    type="text"
+                    id="ruta"
+                    th:field="*{ruta}"
+                    placeholder="Ej. Ruta norte - Medellín"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 FECHA
+                 ================================================= -->
+
+            <div style="margin-bottom: 20px;">
+
+                <label for="fechaEntrega">
+                    <strong>Fecha de entrega</strong>
+                </label>
+
+                <input
+                    type="date"
+                    id="fechaEntrega"
+                    th:field="*{fechaEntrega}"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;"
+                >
+
+            </div>
+
+
+            <!-- =================================================
+                 ESTADO
+                 ================================================= -->
+
+            <div style="margin-bottom: 25px;">
+
+                <label for="estado">
+                    <strong>Estado</strong>
+                </label>
+
+                <select
+                    id="estado"
+                    th:field="*{estado}"
+                    required
+                    style="width: 100%; padding: 12px; margin-top: 8px; border: 1px solid #ccc; border-radius: 6px;">
+
+                    <option value="Programada">
+                        Programada
+                    </option>
+
+                    <option value="En ruta">
+                        En ruta
+                    </option>
+
+                    <option value="Entregada">
+                        Entregada
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- =================================================
+                 BOTONES
+                 ================================================= -->
+
+            <div>
+
+                <button
+                    type="submit"
+                    class="btn"
+                    style="border: none; cursor: pointer;">
+
+                    💾 Guardar entrega
+
+                </button>
+
+
+                <a
+                    th:href="@{/entregas}"
+                    class="btn"
+                    style="background-color: #64748b; margin-left: 10px;">
+
+                    ↩️ Cancelar
+
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</main>
+
+
+<footer>
+
+    <p>
+        Flores del Valle © 2026 |
+        Sistema de gestión de floristería
+    </p>
+
+</footer>
+
+
+</body>
+
+</html>
